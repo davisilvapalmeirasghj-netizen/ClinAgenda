@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+<h1>Painel administrativo</h1>
+<p class="sub">Visão geral da clínica (acesso restrito ao administrador).</p>
+
+<div class="resumo">
+  <div class="card"><strong><%= totalPacientes %></strong>pacientes cadastrados</div>
+  <div class="card"><strong><%= totalMedicos %></strong>médicos</div>
+  <div class="card"><strong><%= totalConsultasAgendadas %></strong>consultas agendadas</div>
+  <div class="card"><strong><%= totalConsultasCanceladas %></strong>consultas canceladas</div>
+  <div class="card"><strong><%= totalLembretes %></strong>lembretes enviados</div>
+</div>
+
+<div class="card">
+  <h2 class="sem-margem-topo">Últimas consultas agendadas</h2>
+  <% if (!proximasConsultas.length) { %>
+    <div class="vazio">Nenhuma consulta agendada no momento.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Data</th><th>Paciente</th><th>Médico</th></tr></thead>
+      <tbody>
+        <% proximasConsultas.forEach(c => { %>
+          <tr>
+            <td><%= formatarData(c.data) %> <%= c.hora %></td>
+            <td><%= c.paciente ? c.paciente.nome : '—' %></td>
+            <td><%= c.medico ? c.medico.nome : '—' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../partials/footer') %>

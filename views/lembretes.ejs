@@ -1,0 +1,23 @@
+<%- include('partials/header') %>
+<h1>Lembretes</h1>
+<p class="sub">O sistema envia um lembrete nas <%= janelaHoras %>h anteriores a cada consulta, pelo canal escolhido no cadastro (<%= usuario.lembretePor === 'sms' ? 'SMS' : 'e-mail' %>). O envio é simulado e roda automaticamente no servidor.</p>
+
+<div class="card">
+  <% if (!lista.length) { %>
+    <div class="vazio">Nenhum lembrete enviado ainda.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Enviado em</th><th>Canal</th><th>Mensagem</th></tr></thead>
+      <tbody>
+        <% lista.forEach(l => { %>
+          <tr>
+            <td><%= new Date(l.enviadoEm).toLocaleString('pt-BR') %></td>
+            <td><span class="tag"><%= l.canal %></span><br><small class="sub"><%= l.destino %></small></td>
+            <td><%= l.mensagem %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

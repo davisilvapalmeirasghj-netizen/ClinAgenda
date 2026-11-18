@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+<section class="card hero">
+  <div>
+    <h1>Agende sua consulta sem fila e sem telefone</h1>
+    <p class="sub">Cadastre-se, escolha o médico e o horário, e receba um lembrete antes da consulta.</p>
+    <div class="acoes">
+      <a href="/cadastro" class="btn">Criar minha conta</a>
+      <a href="/medicos" class="btn sec">Ver médicos disponíveis</a>
+    </div>
+  </div>
+  <ol class="passos">
+    <li><strong>1.</strong> Faça seu cadastro</li>
+    <li><strong>2.</strong> Entre com e-mail e senha</li>
+    <li><strong>3.</strong> Escolha especialidade, médico e horário</li>
+    <li><strong>4.</strong> Receba o lembrete e compareça</li>
+  </ol>
+</section>
+
+<section class="card">
+  <h2 class="sem-margem-topo">Especialidades atendidas</h2>
+  <div class="horarios">
+    <% especialidades.forEach(e => { %><span class="tag"><%= e %></span><% }) %>
+  </div>
+</section>
+<%- include('partials/footer') %>

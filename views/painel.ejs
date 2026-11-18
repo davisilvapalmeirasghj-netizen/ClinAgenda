@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+<h1>Olá, <%= usuario.nome.split(' ')[0] %>!</h1>
+<p class="sub">O que você deseja fazer hoje?</p>
+<div class="resumo">
+  <div class="card"><strong><%= totalFuturas %></strong>consulta(s) agendada(s)</div>
+  <div class="card"><strong><%= totalRealizadas %></strong>consulta(s) realizada(s)</div>
+  <div class="card"><strong><%= totalLembretes %></strong>lembrete(s) recebido(s)</div>
+</div>
+<div class="card espaco-topo">
+  <h2 class="sem-margem-topo">Próxima consulta</h2>
+  <% if (prox) { %>
+    <p><strong><%= medicoProx.nome %></strong> · <%= prox.especialidade %><br><%= formatarData(prox.data) %> às <%= prox.hora %></p>
+  <% } else { %>
+    <p class="sub">Você não tem consultas agendadas.</p>
+  <% } %>
+  <div class="acoes">
+    <a href="/medicos" class="btn">Agendar consulta</a>
+    <a href="/consultas" class="btn sec">Minhas consultas</a>
+  </div>
+</div>
+<%- include('partials/footer') %>

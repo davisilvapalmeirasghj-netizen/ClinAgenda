@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+<h1>Médicos disponíveis</h1>
+<p class="sub">Filtre por especialidade e veja os próximos horários livres.</p>
+
+<form method="GET" action="/medicos" class="card filtros">
+  <div>
+    <label for="esp">Especialidade</label>
+    <select id="esp" name="esp" data-auto-submit>
+      <option value="">Todas</option>
+      <% especialidades.forEach(e => { %>
+        <option value="<%= e %>" <%= especialidade === e ? 'selected' : '' %>><%= e %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div>
+    <label for="busca">Nome do médico</label>
+    <input id="busca" name="busca" value="<%= busca %>" placeholder="Digite para buscar">
+  </div>
+  <div><button class="btn sec" type="submit">Filtrar</button></div>
+</form>
+
+<div class="grid">
+  <% if (!lista.length) { %>
+    <div class="card vazio">Nenhum médico encontrado com esses filtros.</div>
+  <% } %>
+  <% lista.forEach(m => { %>
+    <article class="card medico">
+      <span class="tag"><%= m.especialidade %></span>
+      <h3><%= m.nome %></h3>
+      <div class="crm"><%= m.crm %> · consulta de <%= m.duracao %> min</div>
+      <div class="horarios">
+        <% if (m.proximos.length) { %>
+          <% m.proximos.forEach(h => { %><span class="tag ok"><%= formatarDataCurta(h.data) %> <%= h.hora %></span><% }) %>
+        <% } else { %>
+          <span class="sub">Sem horários nos próximos dias</span>
+        <% } %>
+      </div>
+      <div class="acoes">
+        <a class="btn peq" href="/agendar/<%= m.id %>">
+          <%= usuario ? 'Ver agenda e agendar' : 'Entrar para agendar' %>
+        </a>
+      </div>
+    </article>
+  <% }) %>
+</div>
+<%- include('partials/footer') %>

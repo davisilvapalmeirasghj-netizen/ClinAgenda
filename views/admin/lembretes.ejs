@@ -1,0 +1,22 @@
+<%- include('../partials/header') %>
+<h1>Lembretes enviados (todos os pacientes)</h1>
+<div class="card">
+  <% if (!lista.length) { %>
+    <div class="vazio">Nenhum lembrete enviado ainda.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Enviado em</th><th>Paciente</th><th>Canal</th><th>Destino</th></tr></thead>
+      <tbody>
+        <% lista.forEach(l => { %>
+          <tr>
+            <td><%= new Date(l.enviadoEm).toLocaleString('pt-BR') %></td>
+            <td><%= l.paciente ? l.paciente.nome : '—' %></td>
+            <td><span class="tag"><%= l.canal %></span></td>
+            <td><%= l.destino %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../partials/footer') %>

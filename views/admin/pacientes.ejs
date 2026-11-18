@@ -1,0 +1,24 @@
+<%- include('../partials/header') %>
+<h1>Pacientes cadastrados</h1>
+<div class="card">
+  <% if (!lista.length) { %>
+    <div class="vazio">Nenhum paciente cadastrado ainda.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Consultas</th><th>Cadastrado em</th></tr></thead>
+      <tbody>
+        <% lista.forEach(p => { %>
+          <tr>
+            <td><%= p.nome %></td>
+            <td><%= mascaraCPF(p.cpf) %></td>
+            <td><%= p.email %></td>
+            <td><%= mascaraTelefone(p.telefone) %></td>
+            <td><%= p.totalConsultas %></td>
+            <td><%= new Date(p.criadoEm).toLocaleDateString('pt-BR') %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../partials/footer') %>

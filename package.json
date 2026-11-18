@@ -1,0 +1,17 @@
+{
+  "name": "clinagenda",
+  "version": "1.0.0",
+  "description": "ClinAgenda - sistema web de agendamento de consultas (TechCare Sistemas)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0"
+  }
+}

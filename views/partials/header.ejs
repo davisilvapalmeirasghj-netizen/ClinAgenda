@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClinAgenda | Agendamento de Consultas</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="/" class="brand">Clin<span>Agenda</span></a>
+    <nav class="menu">
+      <% if (usuario && usuario.role === 'admin') { %>
+        <a href="/admin" class="<%= rotaAtiva === 'admin' ? 'ativo' : '' %>">Painel admin</a>
+        <a href="/admin/pacientes" class="<%= rotaAtiva === 'admin-pacientes' ? 'ativo' : '' %>">Pacientes</a>
+        <a href="/admin/medicos" class="<%= rotaAtiva === 'admin-medicos' ? 'ativo' : '' %>">Médicos</a>
+        <a href="/admin/consultas" class="<%= rotaAtiva === 'admin-consultas' ? 'ativo' : '' %>">Consultas</a>
+        <a href="/admin/lembretes" class="<%= rotaAtiva === 'admin-lembretes' ? 'ativo' : '' %>">Lembretes</a>
+        <span class="usuario">Admin: <%= usuario.nome.split(' ')[0] %></span>
+        <form method="POST" action="/logout" class="form-inline">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit">Sair</button>
+        </form>
+      <% } else if (usuario) { %>
+        <a href="/painel" class="<%= rotaAtiva === 'painel' ? 'ativo' : '' %>">Início</a>
+        <a href="/medicos" class="<%= rotaAtiva === 'medicos' ? 'ativo' : '' %>">Médicos</a>
+        <a href="/consultas" class="<%= rotaAtiva === 'consultas' ? 'ativo' : '' %>">Minhas consultas</a>
+        <a href="/lembretes" class="<%= rotaAtiva === 'lembretes' ? 'ativo' : '' %>">Lembretes</a>
+        <span class="usuario">Olá, <%= usuario.nome.split(' ')[0] %></span>
+        <form method="POST" action="/logout" class="form-inline">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit">Sair</button>
+        </form>
+      <% } else { %>
+        <a href="/medicos" class="<%= rotaAtiva === 'medicos' ? 'ativo' : '' %>">Médicos</a>
+        <a href="/login" class="<%= rotaAtiva === 'login' ? 'ativo' : '' %>">Entrar</a>
+        <a href="/cadastro" class="btn sec peq">Criar conta</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <% if (typeof flash !== 'undefined' && flash) { %>
+    <div class="avisos">
+      <div class="aviso <%= flash.tipo === 'erro' ? 'aviso-erro' : 'aviso-sucesso' %>"><%= flash.msg %></div>
+    </div>
+  <% } %>
+
+  <% if (typeof avisosLembrete !== 'undefined' && avisosLembrete && avisosLembrete.length) { %>
+    <div class="avisos">
+      <% avisosLembrete.forEach(a => { %>
+        <div class="aviso">
+          <span>🔔 Lembrete: consulta com <strong><%= a.medico.nome %></strong> em <%= a.dataFormatada %> às <strong><%= a.hora %></strong>.</span>
+          <a href="/consultas" class="btn sec peq">Ver</a>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <main class="container">

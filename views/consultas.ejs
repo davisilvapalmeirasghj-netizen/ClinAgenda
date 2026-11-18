@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+<h1>Minhas consultas</h1>
+<p class="sub">Cancelamentos são aceitos até <%= prazoCancelamento %>h antes do horário marcado.</p>
+
+<div class="card">
+  <% if (!lista.length) { %>
+    <div class="vazio">Você ainda não tem consultas. <a href="/medicos">Agendar agora</a></div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Data</th><th>Médico</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% const rotulo = { agendada: 'Agendada', cancelada: 'Cancelada', realizada: 'Realizada' };
+           const classe = { agendada: 'ok', cancelada: 'cancelada', realizada: 'realizada' }; %>
+        <% lista.forEach(c => { %>
+          <tr>
+            <td><%= formatarData(c.data) %><br><strong><%= c.hora %></strong></td>
+            <td><%= c.medico.nome %><br><small class="sub"><%= c.especialidade %></small></td>
+            <td><span class="tag <%= classe[c.status] %>"><%= rotulo[c.status] %></span></td>
+            <td>
+              <% if (c.podeCancelar) { %>
+                <form method="POST" action="/consultas/<%= c.id %>/cancelar" data-confirmar="Cancelar esta consulta? O horário será liberado para outros pacientes.">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="text" name="motivo" maxlength="120" placeholder="Motivo (opcional)" class="motivo-cancelamento">
+                  <button class="btn perigo peq" type="submit">Cancelar</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+<h1>Criar conta</h1>
+<p class="sub">Preencha seus dados para agendar consultas.</p>
+<form method="POST" action="/cadastro" class="card form" novalidate>
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+  <label for="nome">Nome completo</label>
+  <input id="nome" name="nome" type="text" autocomplete="name" value="<%= valores.nome || '' %>" required>
+  <div class="erro-campo"><%= erros.nome || '' %></div>
+
+  <div class="linha">
+    <div>
+      <label for="cpf">CPF</label>
+      <input id="cpf" name="cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" value="<%= valores.cpf || '' %>" required>
+      <div class="erro-campo"><%= erros.cpf || '' %></div>
+    </div>
+    <div>
+      <label for="nascimento">Data de nascimento</label>
+      <input id="nascimento" name="nascimento" type="date" value="<%= valores.nascimento || '' %>" required>
+      <div class="erro-campo"><%= erros.nascimento || '' %></div>
+    </div>
+  </div>
+
+  <div class="linha">
+    <div>
+      <label for="telefone">Celular</label>
+      <input id="telefone" name="telefone" type="tel" placeholder="(44) 99999-9999" value="<%= valores.telefone || '' %>" required>
+      <div class="erro-campo"><%= erros.telefone || '' %></div>
+    </div>
+    <div>
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" autocomplete="email" value="<%= valores.email || '' %>" required>
+      <div class="erro-campo"><%= erros.email || '' %></div>
+    </div>
+  </div>
+
+  <div class="linha">
+    <div>
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="new-password" required>
+      <div class="erro-campo"><%= erros.senha || '' %></div>
+    </div>
+    <div>
+      <label for="confirmacao">Confirmar senha</label>
+      <input id="confirmacao" name="confirmacao" type="password" autocomplete="new-password" required>
+      <div class="erro-campo"><%= erros.confirmacao || '' %></div>
+    </div>
+  </div>
+
+  <label for="lembretePor">Receber lembretes por</label>
+  <select id="lembretePor" name="lembretePor">
+    <option value="email" <%= valores.lembretePor === 'email' ? 'selected' : '' %>>E-mail</option>
+    <option value="sms" <%= valores.lembretePor === 'sms' ? 'selected' : '' %>>SMS</option>
+  </select>
+
+  <div class="acoes">
+    <button class="btn" type="submit">Cadastrar</button>
+    <a href="/login" class="btn sec">Já tenho conta</a>
+  </div>
+</form>
+<%- include('partials/footer') %>

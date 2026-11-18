@@ -1,0 +1,48 @@
+<%- include('partials/header') %>
+<a href="/medicos">&larr; Voltar aos médicos</a>
+<h1 class="espaco-topo-peq">Agendar com <%= medico.nome %></h1>
+<p class="sub"><%= medico.especialidade %> · <%= medico.crm %> · consulta de <%= medico.duracao %> min</p>
+
+<% if (erro) { %><div class="card"><div class="erro-campo"><%= erro %></div></div><% } %>
+
+<div class="card">
+  <h2 class="sem-margem-topo">1. Escolha o dia</h2>
+  <div class="dias">
+    <% agenda.forEach(d => { %>
+      <% if (d.livres.length) { %>
+        <a class="dia <%= d.data === dataSel ? 'sel' : '' %>" href="/agendar/<%= medico.id %>?data=<%= d.data %>">
+          <small><%= formatarData(d.data).slice(0, 3) %></small><%= formatarDataCurta(d.data) %>
+          <small><%= d.livres.length %> livres</small>
+        </a>
+      <% } else { %>
+        <span class="dia dia-indisponivel" aria-disabled="true">
+          <small><%= formatarData(d.data).slice(0, 3) %></small><%= formatarDataCurta(d.data) %>
+          <small>&ndash;</small>
+        </span>
+      <% } %>
+    <% }) %>
+  </div>
+</div>
+
+<div class="card">
+  <h2 class="sem-margem-topo">2. Escolha o horário e confirme</h2>
+  <% if (diaSelecionado && diaSelecionado.livres.length) { %>
+    <form method="POST" action="/agendar/<%= medico.id %>" data-confirmar="Confirmar o agendamento desta consulta?">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <input type="hidden" name="data" value="<%= dataSel %>">
+      <p class="sub"><%= formatarData(dataSel) %></p>
+      <div class="horarios">
+        <% diaSelecionado.livres.forEach((h, i) => { %>
+          <label class="horario-opcao">
+            <input type="radio" name="hora" value="<%= h %>" <%= i === 0 ? 'required' : '' %> class="horario-radio">
+            <span><%= h %></span>
+          </label>
+        <% }) %>
+      </div>
+      <button class="btn espaco-topo" type="submit">Confirmar agendamento</button>
+    </form>
+  <% } else { %>
+    <p class="sub">Nenhum horário livre neste dia. Escolha outro dia acima.</p>
+  <% } %>
+</div>
+<%- include('partials/footer') %>

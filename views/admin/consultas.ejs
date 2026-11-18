@@ -1,0 +1,37 @@
+<%- include('../partials/header') %>
+<h1>Todas as consultas</h1>
+
+<form method="GET" action="/admin/consultas" class="card filtros">
+  <div>
+    <label for="status">Status</label>
+    <select id="status" name="status" data-auto-submit>
+      <option value="" <%= status === '' ? 'selected' : '' %>>Todos</option>
+      <option value="agendada" <%= status === 'agendada' ? 'selected' : '' %>>Agendada</option>
+      <option value="realizada" <%= status === 'realizada' ? 'selected' : '' %>>Realizada</option>
+      <option value="cancelada" <%= status === 'cancelada' ? 'selected' : '' %>>Cancelada</option>
+    </select>
+  </div>
+</form>
+
+<div class="card">
+  <% if (!lista.length) { %>
+    <div class="vazio">Nenhuma consulta encontrada.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Data</th><th>Paciente</th><th>Médico</th><th>Status</th></tr></thead>
+      <tbody>
+        <% const rotulo = { agendada: 'Agendada', cancelada: 'Cancelada', realizada: 'Realizada' };
+           const classe = { agendada: 'ok', cancelada: 'cancelada', realizada: 'realizada' }; %>
+        <% lista.forEach(c => { %>
+          <tr>
+            <td><%= formatarData(c.data) %> <%= c.hora %></td>
+            <td><%= c.paciente ? c.paciente.nome : '—' %></td>
+            <td><%= c.medico ? c.medico.nome : '—' %></td>
+            <td><span class="tag <%= classe[c.status] %>"><%= rotulo[c.status] %></span></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../partials/footer') %>
